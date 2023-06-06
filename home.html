@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Naye</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css"
+    />
+    <style>
+      body {
+        background-color: #ff69b4;
+        font-family: Arial;
+      }
+      h1 {
+        color: black;
+        text-align: center;
+      }
+      #mensaje {
+        position: fixed;
+        right: 30%;
+        border-radius: 80px;
+        width: 170px;
+        height: 65px;
+        background: #a9def9;
+        padding: 20px 0 0 50px;
+        font-family: sans-serif;
+        font-weight: bold;
+        font-size: 20px;
+        z-index: 2;
+        padding: 12px;
+        text-align: center;
+      }
+      #mensaje:after {
+        content: " ";
+        position: absolute;
+        width: 40px;
+        height: 60px;
+        top: 50px;
+        left: 50px;
+        border-radius: 20px;
+        box-shadow: inset 0px 0px #a9def9, inset -16px 0px 1px 2px #a9def9;
+        z-index: -1;
+      }
+      #intro {
+        margin-left: -9px;
+      }
+      #intro p {
+        width: 400px;
+        margin: 20px auto;
+        font-family: sans-serif;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+      }
+      .hidden {
+        display: none;
+      }
+      .mostrar {
+        display: block;
+      }
+      #botonJugar {
+        height: 70px;
+        margin: 0 auto;
+        display: block;
+        font-size: 30px;
+        background-color: #ffff00;
+        color: #8b4513;
+        border: 0;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+      div.petalo {
+        background-color: #ffffff;
+        border-radius: 40px;
+        width: 80px;
+        height: 80px;
+        position: absolute;
+      }
+      #centro {
+        background-color: #dba901;
+        border-radius: 50px;
+        -webkit-border-radius: 50px;
+        -moz-border-radius: 50px;
+        -ms-border-radius: 50px;
+        -o-border-radius: 50px;
+        width: 100px;
+        height: 100px;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        margin-top: -50px;
+        margin-left: -50px;
+      }
+      #tallo {
+        width: 15px;
+        height: 150px;
+        background-color: #006c67;
+        margin-top: -100px;
+        margin-left: 145px;
+      }
+      #hoja {
+        background-color: #006c67;
+        border-radius: 15px 0px 15px 0px;
+        width: 30px;
+        height: 30px;
+        margin-left: 160px;
+        margin-top: -90px;
+        position: absolute;
+      }
+
+      #flor {
+        width: 300px;
+        height: 300px;
+        background-color: transparent;
+        position: relative;
+      }
+      #p1 {
+        top: 70px;
+        left: 40px;
+      }
+      #p2 {
+        top: 40px;
+        left: 110px;
+      }
+      #p3 {
+        top: 70px;
+        left: 180px;
+      }
+      #p4 {
+        top: 145px;
+        left: 44px;
+      }
+      #p5 {
+        top: 180px;
+        left: 114px;
+      }
+      #p6 {
+        top: 140px;
+        left: 180px;
+      }
+      #figura {
+        position: relative;
+        background-color: transparent;
+        top: 0px;
+        left: 0px;
+        width: 300px;
+        margin: auto;
+      }
+      #cesped {
+        position: absolute;
+        width: 394px;
+        position: absolute;
+        bottom: 0px;
+      }
+      .manga {
+        background: #80ed99;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+      }
+      .fondo_manga {
+        background: #80ed99;
+        height: 50px;
+        left: -10px;
+        position: absolute;
+        top: 26px;
+        width: 394px;
+      }
+
+      #postit {
+        position: fixed;
+        background: #e9ff70;
+        width: 200px;
+        height: 200px;
+        margin: 20px;
+        right: 10px;
+        padding: 20px;
+      }
+
+      @keyframes heartBeat {
+        0% {
+          transform: scale(1);
+        }
+        14% {
+          transform: scale(1.3);
+        }
+        28% {
+          transform: scale(1);
+        }
+        42% {
+          transform: scale(1.3);
+        }
+        70% {
+          transform: scale(1);
+        }
+      }
+
+      #modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #mensajeEmotivo {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        max-width: 150px;
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #ff69b4;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+    <script>
+      window.onload = init;
+      var petalos;
+      var boton_jugar;
+      var valores;
+      var frasesMotivadoras = [
+        "Naye, puedes hacerlo.",
+        "No te rindas, sigue adelante.",
+        "El éxito está a tu alcance.",
+        "Cada día es una oportunidad para crecer.",
+        "Tienes el poder de cambiar tu mundo.",
+        "Tus sueños son posibles.",
+        "Eres más fuerte de lo que crees.",
+        "Tu esfuerzo vale la pena.",
+        "Cree en ti misma y lograrás grandes cosas.",
+        "El éxito viene a aquellos que nunca se rinden.",
+        "Nunca dejes de creer en ti misma.",
+        "Eres capaz de superar cualquier desafío.",
+        "Tu determinación te llevará lejos en la vida.",
+        "Confía en tus habilidades y sigue adelante.",
+        "Si puedes soñarlo, puedes lograrlo.",
+        "El camino hacia el éxito comienza con un primer paso.",
+        "No hay límites para lo que puedes alcanzar.",
+        "Tu perseverancia te llevará a grandes logros.",
+        "Cada obstáculo es una oportunidad para crecer.",
+        "Tu pasión te guiará hacia el éxito.",
+      ];
+      var frasesUsadas = [];
+
+      function init() {
+        petalos = document.getElementsByClassName("petalo");
+        asignarEvento();
+        boton_jugar = document.getElementById("botonJugar");
+        boton_jugar.addEventListener("click", abrirJuego);
+      }
+
+      function asignarValores() {
+        var numero_aleatorio = Math.round(Math.random() * 10);
+        var moneda = numero_aleatorio > 5;
+        valores = [];
+        for (var i = 0; i < petalos.length; i++) {
+          valores[i] = moneda;
+          moneda = !moneda;
+        }
+      }
+
+      function abrirJuego() {
+        var ventana_actual = document.getElementById("intro");
+        var ventana_juego = document.getElementById("juego");
+        ventana_actual.className = "hidden";
+        ventana_juego.className = "animated fadeIn";
+        asignarValores();
+      }
+
+      function asignarEvento() {
+        for (var i = 0; i < petalos.length; i++) {
+          petalos[i].addEventListener("click", animar);
+        }
+      }
+
+      function colorAleatorio() {
+        var r = Math.round(Math.random() * 255);
+        var g = Math.round(Math.random() * 255);
+        var b = Math.round(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+      }
+
+      function animar(event) {
+        var id_petalo = event.target.id;
+        var petalo = document.getElementById("" + id_petalo);
+        petalo.className = "petalo animated fadeOutDown";
+        validarJugada(id_petalo);
+      }
+
+      function validarJugada(petalo) {
+        var indice = parseInt(petalo.substr(1));
+        var frase = obtenerFraseMotivadora();
+        texto_mensaje.innerHTML = frase;
+        mensaje.className = "mostrar animated fadeIn";
+        setTimeout(() => {
+          mensaje.className = "hidden";
+        }, 8000);
+        if (frasesUsadas.length === 6) {
+          setTimeout(() => {
+            mostrarMensajeEmotivo();
+          }, 1000);
+        }
+      }
+
+      function obtenerFraseMotivadora() {
+        if (frasesUsadas.length === frasesMotivadoras.length) {
+          // Si se han utilizado todas las frases, reiniciar el array
+          frasesUsadas = [];
+        }
+
+        var indiceAleatorio = Math.floor(
+          Math.random() * frasesMotivadoras.length
+        );
+        var frase = frasesMotivadoras[indiceAleatorio];
+
+        // Verificar si la frase ya ha sido utilizada
+        if (frasesUsadas.includes(frase)) {
+          // Si ya ha sido utilizada, obtener una nueva frase recursivamente
+          return obtenerFraseMotivadora();
+        } else {
+          // Agregar la frase a las frases utilizadas y devolverla
+          frasesUsadas.push(frase);
+          return frase;
+        }
+      }
+
+      function mostrarMensajeEmotivo() {
+        var modal = document.createElement("div");
+        modal.id = "modal";
+
+        var mensajeEmotivo = document.createElement("div");
+        mensajeEmotivo.id = "mensajeEmotivo";
+        mensajeEmotivo.innerHTML =
+          "Eres increíble. Nunca dejes de brillar. Te quiero mucho Na";
+
+        // var botonCerrar = document.createElement("button");
+        // botonCerrar.innerHTML = "Cerrar";
+        // botonCerrar.addEventListener("click", function () {
+        //   modal.style.display = "none";
+        // });
+
+        modal.appendChild(mensajeEmotivo);
+        // modal.appendChild(botonCerrar);
+
+        document.body.appendChild(modal);
+
+        setTimeout(() => {
+          modal.style.display = "flex";
+        }, 500);
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Código de Natalia Ortega -->
+    <!--<input type="button" value="animar" id="boton">-->
+    <div id="mensaje" class="hidden">
+      <span id="texto_mensaje"></span>
+    </div>
+    <div id="intro">
+      <h1>Hola princesa Naye</h1>
+      <p>Hoy es un día muy especial</p>
+      <input type="button" value="Ver sorpresa de Ru" id="botonJugar" />
+    </div>
+    <div id="juego" class="hidden">
+      <div id="figura">
+        <div id="flor">
+          <div id="p1" class="petalo animated fadeIn"></div>
+          <div id="p2" class="petalo animated fadeIn"></div>
+          <div id="p3" class="petalo animated fadeIn"></div>
+          <div id="p4" class="petalo animated fadeIn"></div>
+          <div id="p5" class="petalo animated fadeIn"></div>
+          <div id="p6" class="petalo animated fadeIn"></div>
+          <div id="centro" class="animated pulse infinite"></div>
+        </div>
+        <div id="cesped">
+          <div class="manga"></div>
+          <div class="manga"></div>
+          <div class="manga"></div>
+          <div class="manga"></div>
+          <div class="manga"></div>
+          <div class="manga"></div>
+          <div class="manga"></div>
+          <div class="fondo_manga"></div>
+        </div>
+        <div id="tallo"></div>
+        <div id="hoja"></div>
+      </div>
+    </div>
+  </body>
+</html>
